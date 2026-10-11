@@ -1,0 +1,23 @@
+# 行尾规范：文本统一 LF（CI 运行在 Ubuntu，避免 CRLF 导致测试输出比对失败）
+* text=auto
+
+*.c        text eol=lf
+*.h        text eol=lf
+*.cpp      text eol=lf
+*.md       text eol=lf
+*.txt      text eol=lf
+*.sh       text eol=lf
+*.yml      text eol=lf
+*.yaml     text eol=lf
+input*     text eol=lf
+
+# Visual Studio 工程文件保持 CRLF
+*.sln      text eol=crlf
+*.vcxproj  text eol=crlf
+*.filters  text eol=crlf
+
+# 二进制：禁止任何转换
+*.png  binary
+*.pdf  binary
+*.docx binary
+*.pdb  binary
