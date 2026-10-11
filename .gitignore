@@ -47,3 +47,9 @@ out
 Thumbs.db
 desktop.ini
 .DS_Store
+
+# ---------- 本项目专有 ----------
+# 01scan 原为独立仓库，已禁用（重命名为 .git_disabled），历史完整保留
+.git_disabled/
+# 编译出的可执行文件（教程 gcc 产物）
+scan
