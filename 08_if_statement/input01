@@ -1,0 +1,14 @@
+{
+	int xian;
+	int ning;
+	xian=5;
+	ning=2+3;
+	if(xian>ning+1)
+	{
+		print xian+ning;
+	}
+	else
+	{
+		print xian-ning;
+	}
+}

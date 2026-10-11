@@ -1,0 +1,11 @@
+{
+	int xian;
+	int ning;
+	xian=7;
+	ning=0;
+	while(xian>ning)
+	{
+		ning=ning+1;
+		print ning;
+	}
+}

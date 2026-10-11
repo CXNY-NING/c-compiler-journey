@@ -1,0 +1,9 @@
+{
+	int xian;
+	int ning;
+	ning=0;
+	for(xian=7;xian>ning;ning=ning+1)
+	{
+		print ning;
+	}
+}

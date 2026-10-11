@@ -1,0 +1,49 @@
+# ==========================================================
+# ACWJ-C：C 语言子集编译器学习与优化项目
+# 忽略规则：编译产物 / 编辑器与 OS 临时文件 / 工具数据
+# ==========================================================
+
+# ---------- Visual Studio / MSBuild ----------
+.vs/
+Debug/
+Release/
+x64/
+x86/
+ipch/
+*.obj
+*.pdb
+*.ilk
+*.idb
+*.tlog
+*.log
+*.lastbuildstate
+*.vcxproj.user
+*.suo
+*.user
+*.sdf
+*.opensdf
+*.VC.db
+*.VC.opendb
+
+# ---------- 构建产物 ----------
+build/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+*.o
+*.a
+*.exe
+*.out
+*.s
+out
+
+# ---------- Office / 编辑器临时文件 ----------
+~$*
+
+# ---------- 工具数据（非项目内容） ----------
+.workbuddy/
+
+# ---------- OS ----------
+Thumbs.db
+desktop.ini
+.DS_Store
