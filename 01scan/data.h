@@ -1,9 +1,0 @@
-#include <stdio.h>
-
-#ifndef Data
-#define Data
-extern int line;//确定行数
-extern int Putback;//取回符号
-extern FILE* Target_file;//读取目标文件
-
-#endif // !Data
