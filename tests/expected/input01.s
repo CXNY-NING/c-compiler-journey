@@ -81,7 +81,7 @@ L5:
 	movq	xian(%rip), %r8
 	movq	ning(%rip), %r9
 	cmpq	%r9,%r8
-	jge	L5
+	jl	L5
 	movl $0, %eax
 	popq     %rbp
 	ret
