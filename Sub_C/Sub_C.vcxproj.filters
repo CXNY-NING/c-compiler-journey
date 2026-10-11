@@ -14,4 +14,62 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ast.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="cg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="gen.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Parser.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Parser1.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Parser2.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="scan.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="stmt.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="symbol.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\Parser.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ast.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\data.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\scanner.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\stmt.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sym.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\token.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>

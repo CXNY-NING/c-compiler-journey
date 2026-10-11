@@ -46,7 +46,11 @@ if(WIN32 AND CMAKE_CXX_COMPILER_ID MATCHES "GNU")
 endif()
 
 if(MSVC)
-    target_compile_options(cwj PRIVATE /utf-8)
+    # 只声明「源码是 UTF-8」，不指定执行字符集。
+    # 若用 /utf-8（等价于 source+execution 都是 UTF-8），中文诊断会以 UTF-8
+    # 字节输出，而 Windows 控制台默认代码页是 GBK（936），结果就是乱码。
+    # 保持执行字符集为系统 ANSI（中文 Windows 即 GBK），与 Sub_C.vcxproj 一致。
+    target_compile_options(cwj PRIVATE /source-charset:utf-8)
     target_compile_definitions(cwj PRIVATE _CRT_SECURE_NO_WARNINGS)
 endif()
 

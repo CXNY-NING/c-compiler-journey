@@ -34,8 +34,14 @@ cmake_install.cmake
 *.a
 *.exe
 *.out
-*.s
 out
+
+# ---------- 编译器生成的汇编 ----------
+# 注意：编译器输出（Sub_C/out.s、legacy/*/out.s）是产物，不入库；
+# 但 tests/expected/ 下的 golden 快照是"测试源码"，必须入库，
+# 否则回归测试的基线会丢失（此例外必须排在 *.s 之后才生效）。
+*.s
+!tests/expected/*.s
 
 # ---------- Office / 编辑器临时文件 ----------
 ~$*
