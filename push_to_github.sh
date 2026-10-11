@@ -22,12 +22,14 @@ set -e
 # ---------- 参数 ----------
 DRY_RUN=0
 SQUASH=0
+SKIP_SECRET_SCAN=0
 POSITIONAL=()
 for arg in "$@"; do
     case "$arg" in
-        --dry-run) DRY_RUN=1 ;;
-        --squash)  SQUASH=1  ;;   # 丢掉历史，只保留一次提交（最快）
-        *)         POSITIONAL+=("$arg") ;;
+        --dry-run)          DRY_RUN=1 ;;
+        --squash)           SQUASH=1  ;;   # 丢掉历史，只保留一次提交（最快）
+        --skip-secret-scan) SKIP_SECRET_SCAN=1 ;;
+        *)                  POSITIONAL+=("$arg") ;;
     esac
 done
 USERNAME="${POSITIONAL[0]:-}"
@@ -112,11 +114,15 @@ else
         if ! FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch \
                 --index-filter "git rm -r -q --cached --ignore-unmatch $RM_ARGS" \
                 --tag-name-filter cat --prune-empty -- --all \
-                >"$FB_LOG" 2>&1; then
+                >"$FB_LOG" 2>&1 </dev/null; then
+            printf '\n'
             echo "    ✗ filter-branch 失败，日志：$FB_LOG"
             tail -20 "$FB_LOG"
             exit 1
         fi
+        # filter-branch 用 \r 写进度，末尾可能没有换行，补一个空行避免
+        # 后续输出被拼到同一行上
+        printf '\n'
         # 清理 filter-branch 留下的备份引用
         git for-each-ref --format="%(refname)" refs/original/ 2>/dev/null \
             | while read -r ref; do git update-ref -d "$ref"; done
@@ -156,10 +162,21 @@ for f in Sub_C tests build.sh CMakeLists.txt LICENSE README.md; do
 done
 
 # 敏感信息扫描
-if git grep -lE "ghp_|github_pat_|BEGIN (RSA|OPENSSH|PRIVATE) KEY" HEAD -- 2>/dev/null | grep -q .; then
-    echo "    ✗ 检出疑似密钥，已中止"; FAILED=1
+# 注意：模式必须带长度量词（如 ghp_ 后跟 20+ 位），否则本脚本自身的
+# 这些模式字符串会被扫出来，形成「扫描器扫到自己」的误报。
+if [ "$SKIP_SECRET_SCAN" -eq 1 ]; then
+    echo "    – 已跳过密钥扫描（--skip-secret-scan）"
 else
-    echo "    ✓ 未检出密钥/Token"
+    SECRET_RE='ghp_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|AKIA[0-9A-Z]{16}|-----BEGIN [A-Z ]*PRIVATE KEY'
+    SECRET_HITS="$(git grep -lE "$SECRET_RE" HEAD -- . 2>/dev/null || true)"
+    if [ -n "$SECRET_HITS" ]; then
+        echo "    ✗ 检出疑似密钥，已中止："
+        printf '%s\n' "$SECRET_HITS" | sed 's/^/        /'
+        echo "      确认是误报可加 --skip-secret-scan 跳过"
+        FAILED=1
+    else
+        echo "    ✓ 未检出密钥/Token"
+    fi
 fi
 
 if [ "$FAILED" -ne 0 ]; then
