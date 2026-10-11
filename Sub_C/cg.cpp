@@ -188,10 +188,11 @@ void cg_jump(int Label)
 
 // 逻辑运算符 == != > >= < <=
 //跳转符
-const char* jump_operation[] = { "jne","je","jle","jl","jge","jg" };
+const char* IW_jump_operation[] = { "jne","je","jle","jl","jge","jg" };
+const char* D_jump_operation[] = { "je","jne","jg","jge","jl","jle" };
 
 //跳转
-int cg_compare_and_jump(int compare_op, int left_reg, int right_reg, int label)
+int cg_compare_and_jump(int compare_op, int left_reg, int right_reg, int label,int upper_op)
 {
 	//先检查操作符是否正确
 	if (compare_op < A_equal_op || compare_op > A_less_then_or_equal_op)
@@ -200,7 +201,15 @@ int cg_compare_and_jump(int compare_op, int left_reg, int right_reg, int label)
 		exit(1);
 	}
 	fprintf(Out_file, "\tcmpq\t%s,%s\n", register_list[right_reg], register_list[left_reg]);
-	fprintf(Out_file, "\t%s\tL%d\n", jump_operation[compare_op-A_equal_op], label);
+	if (upper_op == A_do)
+	{
+		
+		fprintf(Out_file, "\t%s\tL%d\n", D_jump_operation[compare_op - A_equal_op], label);
+	}
+	else
+	{
+		fprintf(Out_file, "\t%s\tL%d\n", IW_jump_operation[compare_op - A_equal_op], label);
+	}
 	free_all_reg();
 	return -1;
 }

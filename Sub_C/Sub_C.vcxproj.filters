@@ -72,4 +72,13 @@
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="out.s">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="out">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="..\tests\cases\input01" />
+  </ItemGroup>
 </Project>

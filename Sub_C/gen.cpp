@@ -71,7 +71,7 @@ static int get_ans(Ast_node* root ,int reg,int upper_op)
 		case A_less_then_or_equal_op:
 			if (upper_op == A_if|| upper_op == A_while_op|| upper_op == A_do)
 			{
-				return cg_compare_and_jump(root->op, left_reg, right_reg, reg);
+				return cg_compare_and_jump(root->op, left_reg, right_reg, reg, upper_op);
 			}
 			else
 			{

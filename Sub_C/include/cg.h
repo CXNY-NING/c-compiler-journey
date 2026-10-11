@@ -54,7 +54,7 @@ int get_do_ast(Ast_node* root);
 int get_void_ast(Ast_node* root);
 
 //跳转
-int cg_compare_and_jump(int compare_op, int left_reg, int right_reg, int label);
+int cg_compare_and_jump(int compare_op, int left_reg, int right_reg, int label, int upper_op);
 
 //放置标签
 void cg_label(int Label);
