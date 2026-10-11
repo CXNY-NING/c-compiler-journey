@@ -1,15 +1,15 @@
-#include"ast.h"
+ï»¿#include"ast.h"
 #include<stdlib.h>
 #include<stdio.h>
 
 
-//½¨Á¢Ast½Úµã£¨¶şÔª£©
+//å»ºç«‹AstèŠ‚ç‚¹ï¼ˆäºŒå…ƒï¼‰
 Ast_node* make_node(int op, Ast_node* left_node, Ast_node* mid_node, Ast_node* right_node, int value)
 {
 	Ast_node* temp_ast_node = (Ast_node*)malloc(sizeof(Ast_node));
 	if (temp_ast_node == NULL)
 	{
-		fprintf(stderr, "error:ÄÚ´æ²»×ã\n");
+		fprintf(stderr, "error:å†…å­˜ä¸è¶³\n");
 		exit(1);
 	}
 
@@ -21,7 +21,7 @@ Ast_node* make_node(int op, Ast_node* left_node, Ast_node* mid_node, Ast_node* r
 	return temp_ast_node;
 }
 
-//½¨Á¢Ast½Úµã£¨ÁãÔª£©
+//å»ºç«‹AstèŠ‚ç‚¹ï¼ˆé›¶å…ƒï¼‰
 Ast_node* make_leaf(int op,int value)
 {
 	return make_node(op, NULL, NULL, NULL, value);
@@ -33,7 +33,7 @@ Ast_node* make_leaf(int value)
 	Ast_node* temp_ast_node = (Ast_node*)malloc(sizeof(Ast_node));
 	if (temp_ast_node == NULL)
 	{
-		fprintf(stderr, "error:ÄÚ´æ²»×ã\n");
+		fprintf(stderr, "error:å†…å­˜ä¸è¶³\n");
 		exit(1);
 	}
 
@@ -45,27 +45,27 @@ Ast_node* make_leaf(int value)
 }
 */
 
-//½¨Á¢Ast½Úµã£¨Ò»Ôª£©
+//å»ºç«‹AstèŠ‚ç‚¹ï¼ˆä¸€å…ƒï¼‰
 Ast_node* make_only(int op, Ast_node* left, int value)
 {
 	return make_node(op, left, NULL, NULL, value);
 }
 
-//ÊÍ·ÅAst
+//é‡Šæ”¾Ast
 void destroy_Ast(Ast_node* root)
 {
-	//ÏÈÊÍ·Å×ó×ÓÊ÷
+	//å…ˆé‡Šæ”¾å·¦å­æ ‘
 	if (root->left_node!=NULL)
 	{
 		destroy_Ast(root->left_node);
 	}
 
-	//ÔÙÊÍ·ÅÓÒ×ÓÊ÷
+	//å†é‡Šæ”¾å³å­æ ‘
 	if (root->right_node != NULL)
 	{
 		destroy_Ast(root->right_node);
 	}
 
-	//×îºóÊÍ·Åµ±Ç°½Úµã
+	//æœ€åé‡Šæ”¾å½“å‰èŠ‚ç‚¹
 	free(root);
 }

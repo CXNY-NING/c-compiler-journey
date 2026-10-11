@@ -1,4 +1,4 @@
-#include<stdio.h>
+ï»¿#include<stdio.h>
 #include<stdbool.h>
 #include<stdlib.h>
 
@@ -8,7 +8,7 @@ static bool register_busy[4];
 static const char* register_list[] = { "%r8","%r9","%r10" ,"%r11" };
 static const char* bregister_list[] = { "%r8b","%r9b","%r10b" ,"%r11b" };
 
-//·ÖÅäÒ»¸ö¼Ä´æÆ÷
+//åˆ†é…ä¸€ä¸ªå¯„å­˜å™¨
 int alloc_reg(void)
 {
 	for (int i = 0; i < 4; i++)
@@ -19,17 +19,17 @@ int alloc_reg(void)
 			return i;
 		}
 	}
-	fprintf(stderr, "error:µ±Ç°ÒÑÎŞ¼Ä´æÆ÷¿É·ÖÅä\n");
+	fprintf(stderr, "error:å½“å‰å·²æ— å¯„å­˜å™¨å¯åˆ†é…\n");
 	exit(1);
 }
 
-//»ØÊÕÒ»¸ö¼Ä´æÆ÷
+//å›æ”¶ä¸€ä¸ªå¯„å­˜å™¨
 void free_reg(int reg_name)
 {
 	register_busy[reg_name] = false;
 }
 
-//»ØÊÕËùÓĞµÄ¼Ä´æÆ÷
+//å›æ”¶æ‰€æœ‰çš„å¯„å­˜å™¨
 void free_all_reg(void)
 {
 	for (int i = 0; i < 4; i++)
@@ -37,100 +37,100 @@ void free_all_reg(void)
 		register_busy[i] = false;
 	}
 }
-//¼Ó·¨
+//åŠ æ³•
 int cg_add(int left_reg, int right_reg)
 {
-	//Êä³ö´úÂë
+	//è¾“å‡ºä»£ç 
 	fprintf(Out_file, "\taddq\t%s,%s\n", register_list[left_reg], register_list[right_reg]);
-	//ÊÍ·ÅµÚÒ»¸ö¼Ä´æÆ÷£¬·µ»ØµÚ¶ş¸ö¼Ä´æÆ÷
+	//é‡Šæ”¾ç¬¬ä¸€ä¸ªå¯„å­˜å™¨ï¼Œè¿”å›ç¬¬äºŒä¸ªå¯„å­˜å™¨
 	free_reg(left_reg);
 	return right_reg;
 }
 
-//¼õ·¨
+//å‡æ³•
 int cg_sub(int left_reg, int right_reg)
 {
-	//Êä³ö´úÂë
+	//è¾“å‡ºä»£ç 
 	fprintf(Out_file, "\tsubq\t%s,%s\n", register_list[right_reg], register_list[left_reg]);
-	//ÊÍ·ÅµÚ¶ş¸ö¼Ä´æÆ÷£¬·µ»ØµÚÒ»¸ö¼Ä´æÆ÷
+	//é‡Šæ”¾ç¬¬äºŒä¸ªå¯„å­˜å™¨ï¼Œè¿”å›ç¬¬ä¸€ä¸ªå¯„å­˜å™¨
 	free_reg(right_reg);
 	return left_reg;
 }
-//³Ë·¨
+//ä¹˜æ³•
 int cg_mul(int left_reg, int right_reg)
 {
-	//Êä³ö´úÂë
+	//è¾“å‡ºä»£ç 
 	fprintf(Out_file, "\timulq\t%s,%s\n", register_list[left_reg], register_list[right_reg]);
-	//ÊÍ·ÅµÚÒ»¸ö¼Ä´æÆ÷£¬·µ»ØµÚ¶ş¸ö¼Ä´æÆ÷
+	//é‡Šæ”¾ç¬¬ä¸€ä¸ªå¯„å­˜å™¨ï¼Œè¿”å›ç¬¬äºŒä¸ªå¯„å­˜å™¨
 	free_reg(left_reg);
 	return right_reg;
 }
-//³ı·¨
+//é™¤æ³•
 int cg_div(int left_reg, int right_reg)
 {
-	//³ıÊı·ÅÔÚ%rax¼Ä´æÆ÷ÀïÃæ
+	//é™¤æ•°æ”¾åœ¨%raxå¯„å­˜å™¨é‡Œé¢
 	fprintf(Out_file, "\tmovq\t%s,%%rax\n", register_list[left_reg]);
-	//ÔÙ½«%raxÀ©Õ¹³É128Î»£¬¼´%rdx:%rax	
+	//å†å°†%raxæ‰©å±•æˆ128ä½ï¼Œå³%rdx:%rax	
 	fprintf(Out_file, "\tcqo\n");
-	//%rdx:%rax³ıÒÔright_regÖĞµÄ³ıÊı
+	//%rdx:%raxé™¤ä»¥right_regä¸­çš„é™¤æ•°
 	fprintf(Out_file, "\tidivq\t%s\n", register_list[right_reg]);
-	//ÉÌÔÚ%rax£¬ÓàÊıÔÚ%rdx
-	//ÔÙ°ÑÉÌ¿½±´»ØÈ¥
+	//å•†åœ¨%raxï¼Œä½™æ•°åœ¨%rdx
+	//å†æŠŠå•†æ‹·è´å›å»
 	fprintf(Out_file, "\tmovq\t%%rax,%s\n", register_list[left_reg]);
-	//ÊÍ·ÅÁíÒ»¸ö¼Ä´æÆ÷
+	//é‡Šæ”¾å¦ä¸€ä¸ªå¯„å­˜å™¨
 	free_reg(right_reg);
 	
 	return left_reg;
 }
-//ÕûÊı¸³Öµ
+//æ•´æ•°èµ‹å€¼
 int cg_int(int value)
 {
-	//ÏÈÓÉ¼Ä´æÆ÷·ÖÅäµÃµ½Ò»¸ö¼Ä´æÆ÷
+	//å…ˆç”±å¯„å­˜å™¨åˆ†é…å¾—åˆ°ä¸€ä¸ªå¯„å­˜å™¨
 	int reg = alloc_reg();
 
-	//Êä³ö´úÂë
+	//è¾“å‡ºä»£ç 
 	fprintf(Out_file, "\tmovq\t$%d,%s\n", value, register_list[reg]);
 	
-	//ÔÙ·µ»ØÕâ¸öÒÑ¾­¸³ÖµºóµÄ¼Ä´æÆ÷Ãû³Æ
+	//å†è¿”å›è¿™ä¸ªå·²ç»èµ‹å€¼åçš„å¯„å­˜å™¨åç§°
 	return reg;
 }
 
-//¼ÓÔØ±äÁ¿
+//åŠ è½½å˜é‡
 int cg_loadglob(const char* name)
 {
-	//µÃµ½Ò»¸ö¼Ä´æÆ÷
+	//å¾—åˆ°ä¸€ä¸ªå¯„å­˜å™¨
 	int reg = alloc_reg();
 
-	//°Ñ±äÁ¿·ÅÈë¼Ä´æÆ÷
+	//æŠŠå˜é‡æ”¾å…¥å¯„å­˜å™¨
 	fprintf(Out_file, "\tmovq\t%s(%%rip), %s\n", name, register_list[reg]);
 	return reg;
 }
 
-//½«Öµ´æÈë±äÁ¿
+//å°†å€¼å­˜å…¥å˜é‡
 int cg_storeglob(int reg, const char* name)
 {
-	//°Ñ±äÁ¿
+	//æŠŠå˜é‡
 	fprintf(Out_file, "\tmovq\t%s, %s(%%rip)\n", register_list[reg], name);
 	return reg;
 }
 
-//½¨Á¢·ûºÅ±í
+//å»ºç«‹ç¬¦å·è¡¨
 void cg_globsym(char* sym)
 {
 	fprintf(Out_file, "\t.comm\t%s,8,8\n", sym);
 }
 
 
-//²Ù×÷·û
+//æ“ä½œç¬¦
 const char* compare_list[] = { "sete","setne","setg","setge","setl","setle" };
 
-//ÓÉÓÚ»ã±à´úÂë£¬ÔÚ±È½ÏÊ±Ö»´¦ÀíµÍ°ËÎ»£¬µ«ÊÇÎÒÃÇ×îºó¶ÁÈ¡µÄÊ±ºòÊÇ¹Û²ìËùÓĞÎ»ÊıµÄ£¬
-//Òò´Ë£¬ÎÒÃÇĞèÒª½«¸ß56Î»£¬È«²¿ÖÃ0£¬ËùÒÔ£¬ÎÒÃÇÔÚÊä³ö±È½ÏÖ¸ÁîÊ±£¬ĞèÒªÓĞÖÃ0²Ù×÷
+//ç”±äºæ±‡ç¼–ä»£ç ï¼Œåœ¨æ¯”è¾ƒæ—¶åªå¤„ç†ä½å…«ä½ï¼Œä½†æ˜¯æˆ‘ä»¬æœ€åè¯»å–çš„æ—¶å€™æ˜¯è§‚å¯Ÿæ‰€æœ‰ä½æ•°çš„ï¼Œ
+//å› æ­¤ï¼Œæˆ‘ä»¬éœ€è¦å°†é«˜56ä½ï¼Œå…¨éƒ¨ç½®0ï¼Œæ‰€ä»¥ï¼Œæˆ‘ä»¬åœ¨è¾“å‡ºæ¯”è¾ƒæŒ‡ä»¤æ—¶ï¼Œéœ€è¦æœ‰ç½®0æ“ä½œ
 int cg_compare_and_set(int left_reg, int right_reg, int compare_op)
 {
 	if (compare_op < A_equal_op || compare_op > A_less_then_or_equal_op)
 	{
-		fprintf(stderr, "error:·Ç·¨µÄ±êÊ¶·û\n");
+		fprintf(stderr, "error:éæ³•çš„æ ‡è¯†ç¬¦\n");
 		exit(1);
 	}
 	fprintf(Out_file, "\tcmpq\t%s, %s\t\n",register_list[right_reg],register_list[left_reg]);
@@ -141,7 +141,7 @@ int cg_compare_and_set(int left_reg, int right_reg, int compare_op)
 	return right_reg;
 }
 
-// Âß¼­ÔËËã·û == != > >= < <=
+// é€»è¾‘è¿ç®—ç¬¦ == != > >= < <=
 /*
 int cg_equal(int left_reg, int right_reg)
 {
@@ -174,29 +174,29 @@ int cg_less_than_equal(int left_reg, int right_reg)
 }
 */
 
-//·ÅÖÃ±êÇ©
+//æ”¾ç½®æ ‡ç­¾
 void cg_label(int Label)
 {
 	fprintf(Out_file, "L%d:\n", Label);
 }
 
-//Ìø×ªµ½±êÇ©
+//è·³è½¬åˆ°æ ‡ç­¾
 void cg_jump(int Label)
 {
 	fprintf(Out_file, "\tjmp\tL%d\n", Label);
 }
 
-// Âß¼­ÔËËã·û == != > >= < <=
-//Ìø×ª·û
+// é€»è¾‘è¿ç®—ç¬¦ == != > >= < <=
+//è·³è½¬ç¬¦
 const char* jump_operation[] = { "jne","je","jle","jl","jge","jg" };
 
-//Ìø×ª
+//è·³è½¬
 int cg_compare_and_jump(int compare_op, int left_reg, int right_reg, int label)
 {
-	//ÏÈ¼ì²é²Ù×÷·ûÊÇ·ñÕıÈ·
+	//å…ˆæ£€æŸ¥æ“ä½œç¬¦æ˜¯å¦æ­£ç¡®
 	if (compare_op < A_equal_op || compare_op > A_less_then_or_equal_op)
 	{
-		fprintf(stderr, "error:·Ç·¨µÄ±êÊ¶·û\n");
+		fprintf(stderr, "error:éæ³•çš„æ ‡è¯†ç¬¦\n");
 		exit(1);
 	}
 	fprintf(Out_file, "\tcmpq\t%s,%s\n", register_list[right_reg], register_list[left_reg]);
@@ -205,7 +205,7 @@ int cg_compare_and_jump(int compare_op, int left_reg, int right_reg, int label)
 	return -1;
 }
 
-//Ç°ÖÃ´úÂë
+//å‰ç½®ä»£ç 
 void cg_preamble()
 {
 	free_all_reg();
@@ -244,7 +244,7 @@ void cg_fun_preamble(const char* name)
 }
 
 
-//Êä³öÖµ
+//è¾“å‡ºå€¼
 void cg_printint(int reg) 
 {
 	fprintf(Out_file, "\tmovq\t%s, %%rdi\n", register_list[reg]);
@@ -252,7 +252,7 @@ void cg_printint(int reg)
 	free_reg(reg);
 }
 
-//ºóÖÃ´úÂë
+//åç½®ä»£ç 
 void cg_postamble()
 {
 	fputs(

@@ -1,4 +1,4 @@
-#include<stdlib.h>
+ï»¿#include<stdlib.h>
 
 #include"ast.h"
 #include"data.h"
@@ -9,7 +9,7 @@
 #include"sym.h"
 #include"stmt.h"
 
-//ÅĞ¶ÏÊÇ·ñÊÇÎÒÃÇËùĞèÒªµÄ
+//åˆ¤æ–­æ˜¯å¦æ˜¯æˆ‘ä»¬æ‰€éœ€è¦çš„
 void match(int type, const char* str)
 {
 	if (tok.token == type)
@@ -20,30 +20,30 @@ void match(int type, const char* str)
 	{
 		if (tok.token != I_value)
 		{
-			fprintf(stderr, "error:Î´ÄÜÕÒµ½ÆÚÍûµÄ×Ö·û,%s, ÆÚÍû£º%s ,%dĞĞ\n", tokens_type[tok.token], str,line);
+			fprintf(stderr, "error:æœªèƒ½æ‰¾åˆ°æœŸæœ›çš„å­—ç¬¦,%s, æœŸæœ›ï¼š%s ,%dè¡Œ\n", tokens_type[tok.token], str,line);
 		}
 		else
 		{
-			fprintf(stderr, "error:Î´ÄÜÕÒµ½ÆÚÍûµÄ×Ö·û,%d, ÆÚÍû£º%s ,%dĞĞ\n", tok.int_value, str,line);
+			fprintf(stderr, "error:æœªèƒ½æ‰¾åˆ°æœŸæœ›çš„å­—ç¬¦,%d, æœŸæœ›ï¼š%s ,%dè¡Œ\n", tok.int_value, str,line);
 			
 		}
 		exit(1);
 	}
 }
-//·ÖºÅ
+//åˆ†å·
 void semi()
 {
 	match(Semicolon, ";");
 }
 
-//±äÁ¿
+//å˜é‡
 void ident(void)
 {
 	match(INT_ident, "ident");
 }
 
 
-//´óÀ¨ºÅ£º×ó¡¢ÓÒ
+//å¤§æ‹¬å·ï¼šå·¦ã€å³
 void L_big(void)
 {
 	match(L_big_bracket, "{");	
@@ -54,7 +54,7 @@ void R_big(void)
 	match(R_big_bracket, "}");
 }
 
-//Ğ¡À¨ºÅ£º×óÓÒ
+//å°æ‹¬å·ï¼šå·¦å³
 void L_small()
 {
 	match(L_bracket, "(");
@@ -65,85 +65,85 @@ void R_small()
 	match(R_bracket, ")");
 }
 
-//Êä³öÓï¾ä
+//è¾“å‡ºè¯­å¥
 Ast_node* print_stmt(void)
 {
 	Ast_node* tree;
 	int reg;
-	//È¥È·ÈÏµÚÒ»¸ö×Ö·ûÊÇprint
+	//å»ç¡®è®¤ç¬¬ä¸€ä¸ªå­—ç¬¦æ˜¯print
 	match(print_op, "print");
 
-	//¶ÁÈ¡ÕâÖ®ºóµÄ±í´ïÊ½
+	//è¯»å–è¿™ä¹‹åçš„è¡¨è¾¾å¼
 	tree = Prec_express(0);
 	tree=make_node(A_print_op, tree, NULL, NULL, 0);
-	//ÊÍ·ÅÊ÷µÄÄÚ´æÕ¼ÓÃ
+	//é‡Šæ”¾æ ‘çš„å†…å­˜å ç”¨
 	return tree;
 }
  
-//¶¨ÒåÓï¾ä
+//å®šä¹‰è¯­å¥
 void var_declaration(void)
 {
-	//È·±£ÒÔintÆğÊÖ
+	//ç¡®ä¿ä»¥intèµ·æ‰‹
 	match(INT, "int");
-	//ÏÂÒ»¸öÊÇ±äÁ¿
+	//ä¸‹ä¸€ä¸ªæ˜¯å˜é‡
 	ident();
 	add_new_sym(buffer);
-	//×ª»¯Îª»ã±àÓï¾ä
+	//è½¬åŒ–ä¸ºæ±‡ç¼–è¯­å¥
 	gen_globsym(buffer);
 	semi();
 }
 
-//¸³ÖµÓï¾ä
+//èµ‹å€¼è¯­å¥
 Ast_node* assignment_statement(void)
 {
 	Ast_node* tree,*left,*right;
 	int id;
-	//È·±£ÒÔ±äÁ¿ÆğÊÖ
+	//ç¡®ä¿ä»¥å˜é‡èµ·æ‰‹
 	ident();
 
-	//¸³ÖµÖ®Ç°È·±££¬ÔÚ·ûºÅ±íÖĞ£¬ÎÒÃÇÒÑ¾­ÓĞÁË¶¨Òå
+	//èµ‹å€¼ä¹‹å‰ç¡®ä¿ï¼Œåœ¨ç¬¦å·è¡¨ä¸­ï¼Œæˆ‘ä»¬å·²ç»æœ‰äº†å®šä¹‰
 	if ((id=find_sym(buffer)) == -1)
 	{
-		fprintf(stderr, "error:¸Ã±äÁ¿Î´¶¨Òå,%s,%dĞĞ\n", buffer, line);
+		fprintf(stderr, "error:è¯¥å˜é‡æœªå®šä¹‰,%s,%dè¡Œ\n", buffer, line);
 		exit(1);
 	}
 
-	//½«±äÁ¿·ÅÔÚÓÒ×ÓÊ÷
+	//å°†å˜é‡æ”¾åœ¨å³å­æ ‘
 	right = make_leaf(A_Lident, id);
 
-	//¶ÁÈ¡=
+	//è¯»å–=
 	match(assign_op, "=");
 
-	//¶ÁÈ¡±í´ïÊ½
+	//è¯»å–è¡¨è¾¾å¼
 	left = Prec_express(0);
 	
-	//½¨Á¢¸³ÖµÓï¾äÍêÕûµÄÓï·¨Ê÷
+	//å»ºç«‹èµ‹å€¼è¯­å¥å®Œæ•´çš„è¯­æ³•æ ‘
 	tree = make_node(A_assign_op, left, NULL,right, 0);
 
 	return tree;
 }
 
-//ifÓï¾ä
+//ifè¯­å¥
 Ast_node* if_stmt(void)
 {
 	Ast_node* left,*mid,*right=NULL;
 	
-	//Æ¥Åäif
+	//åŒ¹é…if
 	match(if_op, "if");
 	L_small();
-	//¼ÆËãÅĞ¶Ï±í´ïÊ½
+	//è®¡ç®—åˆ¤æ–­è¡¨è¾¾å¼
 	left = Prec_express(0);
 	
 	if (left->op<A_equal_op || left->op>A_less_then_or_equal_op)
 	{
-		fprintf(stderr, "error:·Ç·¨µÄ±êÊ¶·û,%dĞĞ\n",line);
+		fprintf(stderr, "error:éæ³•çš„æ ‡è¯†ç¬¦,%dè¡Œ\n",line);
 		exit(1);
 	}
 	R_small();
-	//ÔÙ¶ÁÈ¡µÚÒ»¸öÓï·¨¿é
+	//å†è¯»å–ç¬¬ä¸€ä¸ªè¯­æ³•å—
 	mid = compound_statement();
 
-	//ÔÙÑ°ÕÒÊÇ·ñÓĞelse²¿·Ö
+	//å†å¯»æ‰¾æ˜¯å¦æœ‰elseéƒ¨åˆ†
 	if (tok.token == else_op)
 	{
 		tok = scan();
@@ -154,26 +154,26 @@ Ast_node* if_stmt(void)
 	return left;
 }
 
-//whileÑ­»·
+//whileå¾ªç¯
 Ast_node* while_stmt(void)
 {
-	//¶ÁÈ¡while×Ö·û
+	//è¯»å–whileå­—ç¬¦
 	match(while_op, "while");
 
-	//¶ÁÈ¡×óÀ¨ºÅ
+	//è¯»å–å·¦æ‹¬å·
 	L_small();
 
 	Ast_node* condition;
-	//¶ÁÈ¡²¼¶û±í´ïÊ½
+	//è¯»å–å¸ƒå°”è¡¨è¾¾å¼
 	condition = Prec_express(0);
 
 	if (condition->op<equal_op || condition->op>less_then_or_equal_op)
 	{
-		fprintf(stderr, "error:ÔÚwhileÓï¾ä½¨Á¢µÄÊ±ºò³öÏÖÁË±í´ïÊ½¶ÁÈ¡´íÎó£¬Çë¼ì²é²¼¶û±í´ïÊ½ÊÇ·ñÕıÈ·,%dĞĞ\n", line);
+		fprintf(stderr, "error:åœ¨whileè¯­å¥å»ºç«‹çš„æ—¶å€™å‡ºç°äº†è¡¨è¾¾å¼è¯»å–é”™è¯¯ï¼Œè¯·æ£€æŸ¥å¸ƒå°”è¡¨è¾¾å¼æ˜¯å¦æ­£ç¡®,%dè¡Œ\n", line);
 		exit(1);
 	}
 
-	//¶ÁÈ¡ÓÒÀ¨ºÅ
+	//è¯»å–å³æ‹¬å·
 	R_small();
 
 	Ast_node* stmt;
@@ -183,66 +183,66 @@ Ast_node* while_stmt(void)
 	return res;
 }
 
-//forÓï¾ä
-//ÎÒÃÇ½«Æä²ğ½â³ÉÁ½¸ö²¿·Ö£¬Ç°ÖÃ¶¨Òå²¿·Ö£¬whileÑ­»·²¿·Ö
+//forè¯­å¥
+//æˆ‘ä»¬å°†å…¶æ‹†è§£æˆä¸¤ä¸ªéƒ¨åˆ†ï¼Œå‰ç½®å®šä¹‰éƒ¨åˆ†ï¼Œwhileå¾ªç¯éƒ¨åˆ†
 Ast_node* for_stmt(void)
 {
-	//¶ÁÈ¡for (
+	//è¯»å–for (
 	match(for_op, "for");
 	L_small();
 
-	//¶ÁÈ¡Ç°ÖÃÌõ¼ş
+	//è¯»å–å‰ç½®æ¡ä»¶
 	Ast_node* preop_stmt;
 	preop_stmt = small_stmt();
 	semi();
-	//¶ÁÈ¡ÅĞ¶ÏÌõ¼ş
+	//è¯»å–åˆ¤æ–­æ¡ä»¶
 	Ast_node* condition;
 	condition = Prec_express(0);
 	semi();
 
-	//¶ÁÈ¡ºóÖÃÌõ¼ş
+	//è¯»å–åç½®æ¡ä»¶
 	Ast_node* postop_stmt;
 	postop_stmt = small_stmt();
 	R_small();
 
-	//Ö´ĞĞÓï¾ä
+	//æ‰§è¡Œè¯­å¥
 	Ast_node* run_stmt;
 	run_stmt = compound_statement();
 
-	//ÏÈ½«Ö´ĞĞÓï¾ä+ºóÖÃÌõ¼ş´ò°üÆğÀ´,ÔÙ½«Ìõ¼şÓï¾ä+ËüÃÇÒÔwhileµÄĞÎÊ½´ò°üÆğÀ´
+	//å…ˆå°†æ‰§è¡Œè¯­å¥+åç½®æ¡ä»¶æ‰“åŒ…èµ·æ¥,å†å°†æ¡ä»¶è¯­å¥+å®ƒä»¬ä»¥whileçš„å½¢å¼æ‰“åŒ…èµ·æ¥
 	run_stmt = make_node(A_glue, run_stmt, NULL, postop_stmt, 0);
 	run_stmt = make_node(A_while_op, condition, run_stmt, NULL, 0);
 
-	//×îºóÔÙ½«for´ò°üÆğÀ´
+	//æœ€åå†å°†foræ‰“åŒ…èµ·æ¥
 	Ast_node* tree;
 	tree = make_node(A_glue, preop_stmt, NULL, run_stmt, 0);
 	return tree;
 }
 
-//do_whileÑ­»·
+//do_whileå¾ªç¯
 Ast_node* do_while_stmt(void)
 {
-	//¶ÁÈ¡do
+	//è¯»å–do
 	match(do_op, "do");
 
-	//¶ÁÈ¡Ñ­»·Ìå
+	//è¯»å–å¾ªç¯ä½“
 	Ast_node *run_stmt;
 	run_stmt = compound_statement();
 
-	//¶ÁÈ¡while (
+	//è¯»å–while (
 	match(while_op, "while");
 	L_small();
 
-	//¶ÁÈ¡ÅĞ¶ÏÌõ¼ş
+	//è¯»å–åˆ¤æ–­æ¡ä»¶
 	Ast_node *condition;
 	condition = Prec_express(0);
 	if (condition->op<equal_op || condition->op>less_then_or_equal_op)
 	{
-		fprintf(stderr, "error:ÔÚdo_whileÓï¾ä½¨Á¢µÄÊ±ºò³öÏÖÁË±í´ïÊ½¶ÁÈ¡´íÎó£¬Çë¼ì²é²¼¶û±í´ïÊ½ÊÇ·ñÕıÈ·,%dĞĞ\n", line);
+		fprintf(stderr, "error:åœ¨do_whileè¯­å¥å»ºç«‹çš„æ—¶å€™å‡ºç°äº†è¡¨è¾¾å¼è¯»å–é”™è¯¯ï¼Œè¯·æ£€æŸ¥å¸ƒå°”è¡¨è¾¾å¼æ˜¯å¦æ­£ç¡®,%dè¡Œ\n", line);
 		exit(1);
 	}
 
-	//ÓÒÀ¨ºÅ ;
+	//å³æ‹¬å· ;
 	R_small();
 	semi();
 
@@ -251,7 +251,7 @@ Ast_node* do_while_stmt(void)
 	return tree;
 }
 
-//¼òµ¥Óï¾ä
+//ç®€å•è¯­å¥
 Ast_node* small_stmt(void)
 {
 	Ast_node* tree;
@@ -280,25 +280,25 @@ Ast_node* small_stmt(void)
 		tree = do_while_stmt();
 		break;
 	default:
-		fprintf(stderr, "error:¶ÁÈ¡µ½²»·ûºÏÓï·¨¹æÔòµÄ·ûºÅ, %s ,%dĞĞ\n", tokens_type[tok.token], line);
+		fprintf(stderr, "error:è¯»å–åˆ°ä¸ç¬¦åˆè¯­æ³•è§„åˆ™çš„ç¬¦å·, %s ,%dè¡Œ\n", tokens_type[tok.token], line);
 		exit(1);
 	}
 	return tree;
 }
 
-//¸´ÔÓÓï¾ä
+//å¤æ‚è¯­å¥
 Ast_node* compound_statement(void)
 {
 	Ast_node* left=NULL;
 	Ast_node* tree;
 
-	//¶ÁÈ¡×ó´óÀ¨ºÅ
+	//è¯»å–å·¦å¤§æ‹¬å·
 	L_big();
 	while (1)
 	{
 		if (tok.token == R_big_bracket)
 		{
-			//Ö»ÊÇÒ»¸ö¿ÕµÄ´óÀ¨ºÅ
+			//åªæ˜¯ä¸€ä¸ªç©ºçš„å¤§æ‹¬å·
 			R_big();
 			return left;
 		}
@@ -310,8 +310,8 @@ Ast_node* compound_statement(void)
 		}
 
 		if (tree != NULL)
-		{//Èç¹ûÓÒ±ß¹ÒÁË¶«Î÷£¬ÄÇÃ´ÔÙ¿´¿´×ó×ÓÊ÷
-			//Èç¹û×ó×ÓÊ÷Ã»ÓĞ¹Ò¶«Î÷£¬ÄÇÃ´¾Í·ÅÔÚ×ó×ÓÊ÷ÉÏ£¬Èç¹ûÓĞ£¬¾Í×öÒ»¸öĞÂµÄ½Úµã×ÛºÏÕâÁ½¸ö×ÓÊ÷
+		{//å¦‚æœå³è¾¹æŒ‚äº†ä¸œè¥¿ï¼Œé‚£ä¹ˆå†çœ‹çœ‹å·¦å­æ ‘
+			//å¦‚æœå·¦å­æ ‘æ²¡æœ‰æŒ‚ä¸œè¥¿ï¼Œé‚£ä¹ˆå°±æ”¾åœ¨å·¦å­æ ‘ä¸Šï¼Œå¦‚æœæœ‰ï¼Œå°±åšä¸€ä¸ªæ–°çš„èŠ‚ç‚¹ç»¼åˆè¿™ä¸¤ä¸ªå­æ ‘
 			if (left == NULL)
 			{
 				left = tree;
@@ -324,13 +324,13 @@ Ast_node* compound_statement(void)
 	}
 }
 
-//º¯Êı
+//å‡½æ•°
 Ast_node* function(void)
 {
-	//¶ÁÈ¡void
+	//è¯»å–void
 	match(void_op, "void");
 
-	//±äÁ¿Ãû
+	//å˜é‡å
 	ident();
 	int name_point=add_new_sym(buffer);
 
@@ -338,7 +338,7 @@ Ast_node* function(void)
 	L_small();
 	R_small();
 
-	//¶ÁÈ¡º¯ÊıÄÚÈİ
+	//è¯»å–å‡½æ•°å†…å®¹
 	Ast_node* tree = compound_statement();
 
 

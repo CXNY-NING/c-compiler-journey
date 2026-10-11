@@ -1,42 +1,57 @@
-#include<stdio.h>
+ï»¿#include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
 
 #include"token.h"
 #include"sym.h"
 #include"data.h"
-//Ôö¡¢É¾¡¢¸Ä¡¢²é
 
-//¼ÓÈëÒ»¸öĞÂµÄ·ûºÅ
+// å¹³å°å…¼å®¹å±‚ï¼ˆTD-2 æ„å»ºå‰²è£‚çš„ä¿®å¤ä¹‹ä¸€ï¼‰
+// åŸå…ˆä½¿ç”¨çš„ _strdup æ˜¯ MSVC ä¸“æœ‰å‡½æ•°ï¼›POSIX çš„ strdup åœ¨ä¸¥æ ¼æ ‡å‡†æ¨¡å¼ï¼ˆ-std=c++14ï¼‰
+// ä¸‹åˆä¸è¢«å£°æ˜ã€‚è¿™é‡Œè‡ªè¡Œå®ç°ï¼Œä½¿æºç åœ¨ MSVC / MinGW / Linux-GCC ä¸‹å‡å¯ç¼–è¯‘ã€‚
+static char* cwj_strdup(const char* s)
+{
+	size_t n = strlen(s) + 1;
+	char* p = (char*)malloc(n);
+	if (p != NULL)
+	{
+		memcpy(p, s, n);
+	}
+	return p;
+}
+
+//å¢ã€åˆ ã€æ”¹ã€æŸ¥
+
+//åŠ å…¥ä¸€ä¸ªæ–°çš„ç¬¦å·
 int add_new_sym(const char* name)
 {
-	//ÈôÒÔÇ°¶¨Òå¹ıÁË£¬Ö±½Ó·µ»Ø
+	//è‹¥ä»¥å‰å®šä¹‰è¿‡äº†ï¼Œç›´æ¥è¿”å›
 	int name_point = find_sym(name);
 	if (name_point != -1)
 	{
 		return name_point;
 	}
-	//ÓĞÎ»ÖÃ£¬¾Í¼ÓÈë£¬Ã»ÓĞ£¬Ôò±¨´í
+	//æœ‰ä½ç½®ï¼Œå°±åŠ å…¥ï¼Œæ²¡æœ‰ï¼Œåˆ™æŠ¥é”™
 	if (G_sym_num < Gsymnum)
 	{
-		Global_sym[G_sym_num].name = _strdup(name);
+		Global_sym[G_sym_num].name = cwj_strdup(name);
 		G_sym_num++;
 		return G_sym_num - 1;
 	}
 	else
 	{
-		fprintf(stderr, "error:·ûºÅ±íÒÑÂú£¬%dĞĞ\n", line);
+		fprintf(stderr, "error:ç¬¦å·è¡¨å·²æ»¡ï¼Œ%dè¡Œ\n", line);
 		exit(1);
 	}
 }
 
-//²éÕÒÒ»¸öÒ»¸ö±äÁ¿ÔÚ·ûºÅ±íÖĞµÄÎ»ÖÃ£¬ÔÚ·µ»Ø¶ÔÓ¦ÏÂ±ê£¬²»ÔÚ£¬·µ»Ø-1
+//æŸ¥æ‰¾ä¸€ä¸ªä¸€ä¸ªå˜é‡åœ¨ç¬¦å·è¡¨ä¸­çš„ä½ç½®ï¼Œåœ¨è¿”å›å¯¹åº”ä¸‹æ ‡ï¼Œä¸åœ¨ï¼Œè¿”å›-1
 int find_sym(const char* name)
 {
 	for (int i = 0; i < G_sym_num; i++)
 	{
 		if (strcmp(name, Global_sym[i].name)==0)
-		{//ÕÒµ½ÁË
+		{//æ‰¾åˆ°äº†
 			return i;
 		}
 	}

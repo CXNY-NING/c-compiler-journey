@@ -1,15 +1,15 @@
-#ifndef Ast
+ï»¿#ifndef Ast
 #define Ast
 
 typedef struct Ast_node
 {
-	int op;//²Ù×÷ + - * / int semicolon
-	struct Ast_node* left_node;//×ó×ÓÊ÷
+	int op;//æ“ä½œ + - * / int semicolon
+	struct Ast_node* left_node;//å·¦å­æ ‘
 	struct Ast_node* mid_node;
-	struct Ast_node* right_node;//ÓÒ×ÓÊ÷
+	struct Ast_node* right_node;//å³å­æ ‘
 	union
 	{
-		int int_value;//´æ·ÅµÄintÖµ£¬ÈôopÎªint£¬ÔòÕâÀï´æ·Å¶ÔÓ¦Öµ
+		int int_value;//å­˜æ”¾çš„intå€¼ï¼Œè‹¥opä¸ºintï¼Œåˆ™è¿™é‡Œå­˜æ”¾å¯¹åº”å€¼
 		int id;
 	}v;
 }Ast_node;
@@ -22,10 +22,10 @@ enum Ast_op_type//+ - * / int semicolon ident = ;
 */
 
 
-// ÔËËã·ûºÅ + - * / 
-// Âß¼­ÔËËã·û == != > >= < <=
-// Öµ int³£Á¿£¬int±äÁ¿
-// ±êÊ¶·û ; print int ¸³Öµ·ûºÅ ±»¸³ÖµµÄ·ûºÅ ÈÚºÏ½Úµã£¨ÎªÁË·½±ãºóÆÚifÓï¾äµÄ·­Òë£©
+// è¿ç®—ç¬¦å· + - * / 
+// é€»è¾‘è¿ç®—ç¬¦ == != > >= < <=
+// å€¼ intå¸¸é‡ï¼Œintå˜é‡
+// æ ‡è¯†ç¬¦ ; print int èµ‹å€¼ç¬¦å· è¢«èµ‹å€¼çš„ç¬¦å· èžåˆèŠ‚ç‚¹ï¼ˆä¸ºäº†æ–¹ä¾¿åŽæœŸifè¯­å¥çš„ç¿»è¯‘ï¼‰
 enum Ast_op_type
 {
 	A_add_op=1, A_sub_op, A_mul_op, A_div_op,
@@ -36,16 +36,16 @@ enum Ast_op_type
 };
 
 
-//½¨Á¢Ast½Úµã£¨¶þÔª£©
+//å»ºç«‹AstèŠ‚ç‚¹ï¼ˆäºŒå…ƒï¼‰
 Ast_node* make_node(int op, Ast_node* left_node, Ast_node* mid_node, Ast_node* right_node, int value);
 
-//½¨Á¢Ast½Úµã£¨ÁãÔª£©
+//å»ºç«‹AstèŠ‚ç‚¹ï¼ˆé›¶å…ƒï¼‰
 Ast_node* make_leaf(int op, int value);
 
-//½¨Á¢Ast½Úµã£¨Ò»Ôª£©
+//å»ºç«‹AstèŠ‚ç‚¹ï¼ˆä¸€å…ƒï¼‰
 Ast_node* make_only(int op, Ast_node* left, int value);
 
-//ÊÍ·ÅAst
+//é‡Šæ”¾Ast
 void destroy_Ast(Ast_node* root);
 
 #endif // !Ast

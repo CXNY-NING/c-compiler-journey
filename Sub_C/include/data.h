@@ -1,18 +1,18 @@
-#include <stdio.h>
+ï»¿#include <stdio.h>
 #include"sym.h"
 #include"token.h"
 #include"ast.h"
 
 #ifndef Data
 #define Data
-extern int line;//È·¶¨ĞĞÊı
-extern int Putback;//È¡»Ø·ûºÅ
-extern FILE* Target_file;//¶ÁÈ¡Ä¿±êÎÄ¼ş
+extern int line;//ç¡®å®šè¡Œæ•°
+extern int Putback;//å–å›ç¬¦å·
+extern FILE* Target_file;//è¯»å–ç›®æ ‡æ–‡ä»¶
 extern token tok;
 extern Ast_node* Root;
-extern FILE* Out_file;//Êä³öÎÄ¼ş
+extern FILE* Out_file;//è¾“å‡ºæ–‡ä»¶
 #define Buf_Max 512
-extern char buffer[Buf_Max + 1];//»º´æÇø
+extern char buffer[Buf_Max + 1];//ç¼“å­˜åŒº
 #define Gsymnum 1024
 extern symbol_table Global_sym[Gsymnum];
 static int G_sym_num = 0;

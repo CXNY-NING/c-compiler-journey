@@ -1,11 +1,11 @@
-#include"ast.h"
+ï»¿#include"ast.h"
 #include"token.h"
 #include"data.h"
 #include<stdlib.h>
 #include"scanner.h"
 
 /*
-//½«tokenÖÐµÄÀàÐÍÓëastÖÐµÄ²Ù×÷ÊýÁ´½ÓÆðÀ´ token->ast_op
+//å°†tokenä¸­çš„ç±»åž‹ä¸Žastä¸­çš„æ“ä½œæ•°é“¾æŽ¥èµ·æ¥ token->ast_op
 int connect(int tok)
 {
 	int res;
@@ -39,8 +39,8 @@ int connect(int tok)
 			res = A_Assign;
 			break;
 		default:
-			//Î´Öª·ûºÅ
-			fprintf(stderr, "error:Î´Öª²Ù×÷Êý,ÔÚ%dÐÐ\n", line);
+			//æœªçŸ¥ç¬¦å·
+			fprintf(stderr, "error:æœªçŸ¥æ“ä½œæ•°,åœ¨%dè¡Œ\n", line);
 			exit(1);
 	}
 
@@ -54,12 +54,12 @@ int connect(int tok)
 	{
 		return tok;
 	}
-	fprintf(stderr, "error:Óï·¨´íÎó,%dÐÐ,token:%s\n",line,tokens_type[tok]);
+	fprintf(stderr, "error:è¯­æ³•é”™è¯¯,%dè¡Œ,token:%s\n",line,tokens_type[tok]);
 	exit(1);
 }
 
 
-//»ù±¾µÄ³éÏóÓï·¨Ê÷µ¥Ôª
+//åŸºæœ¬çš„æŠ½è±¡è¯­æ³•æ ‘å•å…ƒ
 Ast_node* Primary(void)
 {
 	Ast_node* temp_ast_node;
@@ -67,74 +67,74 @@ Ast_node* Primary(void)
 
 	switch (tok.token)
 	{
-		case I_value://ÁãÔª²Ù×÷Âë
+		case I_value://é›¶å…ƒæ“ä½œç 
 			temp_ast_node = make_leaf(A_I_value,tok.int_value);
 			break;
 		case INT_ident:
 			id = find_sym(buffer);
 			if (id == -1)
 			{
-				fprintf(stderr, "error:Î´¶¨ÒåµÄÔªËØ%s ,%dÐÐ\n", buffer, line);
+				fprintf(stderr, "error:æœªå®šä¹‰çš„å…ƒç´ %s ,%dè¡Œ\n", buffer, line);
 				exit(1);
 			}
 			temp_ast_node = make_leaf(A_INT_ident, id);
 			break;
-		default://²»·ûºÏÏÖÓÐÓï·¨
-			fprintf(stderr, "error:³öÏÖÁË²»·ûºÏÏÖÓÐÓï·¨µÄÓï¾ä£¬³öÏÖÔÚµÚ%dÐÐ\n", line);
+		default://ä¸ç¬¦åˆçŽ°æœ‰è¯­æ³•
+			fprintf(stderr, "error:å‡ºçŽ°äº†ä¸ç¬¦åˆçŽ°æœ‰è¯­æ³•çš„è¯­å¥ï¼Œå‡ºçŽ°åœ¨ç¬¬%dè¡Œ\n", line);
 			exit(1);
 	}
 	return temp_ast_node;
 }
 
-//½¨Á¢Ò»¸öÍêÕûµÄ³éÏóÓï·¨Ê÷
+//å»ºç«‹ä¸€ä¸ªå®Œæ•´çš„æŠ½è±¡è¯­æ³•æ ‘
 Ast_node* build_Ast(void)
 {
 	Ast_node* root, *left, *right;
 	int op;
 	printf("%d \n", tok.int_value);
-	//ÏÈ´¦Àí×ó×ÓÊ÷£¬Ò»¸öºÏ·¨µÄ±í´ïÊ½µ±È»ÊÇÒÔÊý×Ö¿ªÍ·£¬µ±È»£¬ÎÒÃÇÕâÀïÏÈ²»¿¼ÂÇÀ¨ºÅÎÊÌâ
+	//å…ˆå¤„ç†å·¦å­æ ‘ï¼Œä¸€ä¸ªåˆæ³•çš„è¡¨è¾¾å¼å½“ç„¶æ˜¯ä»¥æ•°å­—å¼€å¤´ï¼Œå½“ç„¶ï¼Œæˆ‘ä»¬è¿™é‡Œå…ˆä¸è€ƒè™‘æ‹¬å·é—®é¢˜
 	left = Primary();
 
-	//ÔÙ¶ÁÈ¡ÏÂÒ»¸ö×Ö·û£¬·ûºÅ
+	//å†è¯»å–ä¸‹ä¸€ä¸ªå­—ç¬¦ï¼Œç¬¦å·
 	tok = scan();
 	if (tok.token == end)
-	{//¾Í°Ñ×ó×ÓÊ÷Ö±½Ó·µ»Ø
+	{//å°±æŠŠå·¦å­æ ‘ç›´æŽ¥è¿”å›ž
 		return left;
 	}
 	printf("%s", tokens_type[tok.token]);
 	op = connect(tok.token);
 
 
-	//ÔÙ´¦ÀíÓÒ×ÓÊ÷,ÏÈ¶ÁÈ¡Ò»¸öÊý×Ö
+	//å†å¤„ç†å³å­æ ‘,å…ˆè¯»å–ä¸€ä¸ªæ•°å­—
 	tok = scan();
 	right = build_Ast();
 
-	//×îºó½«×óÓÒ×ÓÊ÷¹ÒÔÚµ±Ç°¸ù½ÚµãµÄ×óÓÒ¼´¿É£¬
+	//æœ€åŽå°†å·¦å³å­æ ‘æŒ‚åœ¨å½“å‰æ ¹èŠ‚ç‚¹çš„å·¦å³å³å¯ï¼Œ
 	root = make_node(op, left, NULL,right, 0);
 	return root;
 }
-//×¢£ºÕâÑùÐ´£¬µ±È»ÊÇ´íµÄ£¬ÎÒÃÇÏÖÔÚ²»¿¼ÂÇÓÅÏÈ¼¶£¬Ä¬ÈÏ´ó¼ÒËùÓÐÈËµÄÓÅÏÈ¼¶µÄÊÇÒ»ÖÂµÄ
-//²¢ÇÒ£¬ÎÒÃÇ»á·¢ÏÖ£¬ÕâÑùµÄµÝ¹éº¯Êý£¬Ô½Ôç³öÏÖµÄÊý×Ö»áÔ½ÍíÈ¥½øÐÐ¼ÆËã£¬Ã¿¸ö½ÚµãµÄ×ó×ÓÊ÷Ö»ÓÐÒ»²ã
-//µ«ÊÇÓÒ×ÓÊ÷£¬»áÓÐºÜ¶à²ã
+//æ³¨ï¼šè¿™æ ·å†™ï¼Œå½“ç„¶æ˜¯é”™çš„ï¼Œæˆ‘ä»¬çŽ°åœ¨ä¸è€ƒè™‘ä¼˜å…ˆçº§ï¼Œé»˜è®¤å¤§å®¶æ‰€æœ‰äººçš„ä¼˜å…ˆçº§çš„æ˜¯ä¸€è‡´çš„
+//å¹¶ä¸”ï¼Œæˆ‘ä»¬ä¼šå‘çŽ°ï¼Œè¿™æ ·çš„é€’å½’å‡½æ•°ï¼Œè¶Šæ—©å‡ºçŽ°çš„æ•°å­—ä¼šè¶Šæ™šåŽ»è¿›è¡Œè®¡ç®—ï¼Œæ¯ä¸ªèŠ‚ç‚¹çš„å·¦å­æ ‘åªæœ‰ä¸€å±‚
+//ä½†æ˜¯å³å­æ ‘ï¼Œä¼šæœ‰å¾ˆå¤šå±‚
 
-//ÍêÕû½âÊÍÊ÷£¬ÔÙ·µ»Ø´ð°¸
+//å®Œæ•´è§£é‡Šæ ‘ï¼Œå†è¿”å›žç­”æ¡ˆ
 int InterpretAst(Ast_node* root)
 {
-	//ÏÈ´¦Àí×ó×ÓÊ÷µÄ´ð°¸
+	//å…ˆå¤„ç†å·¦å­æ ‘çš„ç­”æ¡ˆ
 	int left_ans;
 	if (root->left_node != NULL)
-	{//Èç¹ûÓÐ×ó×ÓÊ÷£¬ÄÇÃ´£¬µÝ¹é¼ÆËã
+	{//å¦‚æžœæœ‰å·¦å­æ ‘ï¼Œé‚£ä¹ˆï¼Œé€’å½’è®¡ç®—
 		left_ans = InterpretAst(root->left_node);
 	}
 
-	//ÔÙ´¦ÀíÓÒ×ÓÊ÷
+	//å†å¤„ç†å³å­æ ‘
 	int right_ans;
 	if(root->right_node!=NULL)
-	{//Èç¹ûÓÐÓÒ×ÓÊ÷£¬ÄÇÃ´£¬µÝ¹é¼ÆËã
+	{//å¦‚æžœæœ‰å³å­æ ‘ï¼Œé‚£ä¹ˆï¼Œé€’å½’è®¡ç®—
 		right_ans = InterpretAst(root->right_node);
 	}
 
-	//µ±£¬×óÓÒ×ÓÊ÷µÄÖµ¶¼¼ÆËãÍê±ÏÊ±£¬ÎÒÃÇ¸ù¾Ýµ±Ç°½ÚµãµÄopÀ´È·¶¨¼ÆËã·½·¨
+	//å½“ï¼Œå·¦å³å­æ ‘çš„å€¼éƒ½è®¡ç®—å®Œæ¯•æ—¶ï¼Œæˆ‘ä»¬æ ¹æ®å½“å‰èŠ‚ç‚¹çš„opæ¥ç¡®å®šè®¡ç®—æ–¹æ³•
 	int ans;
 	switch (root->op)
 	{
@@ -158,7 +158,7 @@ int InterpretAst(Ast_node* root)
 			ans = root->v.int_value;
 			break;
 		default:
-			fprintf(stderr, "error:Óöµ½ÁËÎÞ·¨Ê¶±ðµÄ±íÊ¾·û %d", root->op);
+			fprintf(stderr, "error:é‡åˆ°äº†æ— æ³•è¯†åˆ«çš„è¡¨ç¤ºç¬¦ %d", root->op);
 			exit(1);
 	}
 	return ans;

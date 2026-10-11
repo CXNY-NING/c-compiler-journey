@@ -1,4 +1,4 @@
-#include<stdio.h>
+ï»¿#include<stdio.h>
 #include<stdlib.h>
 #include<errno.h>
 
@@ -13,11 +13,11 @@
 int line;
 int Putback;
 FILE* Target_file;
-// ½áÊø·û end
-// ÔËËã·ûºÅ + - * / 
-// Âß¼­ÔËËã·û == != > >= < <=
-// Öµ int³£Á¿£¬int±äÁ¿
-// ±êÊ¶·û ; print int ¸³Öµ·ûºÅ { } ( ) if else
+// ç»“æŸç¬¦ end
+// è¿ç®—ç¬¦å· + - * / 
+// é€»è¾‘è¿ç®—ç¬¦ == != > >= < <=
+// å€¼ intå¸¸é‡ï¼Œintå˜é‡
+// æ ‡è¯†ç¬¦ ; print int èµ‹å€¼ç¬¦å· { } ( ) if else
 const char* tokens_type[] = { "end",
 							  "+","-","*","/",
 	                          " == "," != "," > "," >= "," < "," <= ",
@@ -41,7 +41,7 @@ void init()
 
 int main(int argc, char *argv[])
 {
-	//ÊäÈëÖµ¼ì²â
+	//è¾“å…¥å€¼æ£€æµ‹
 	if (argc != 2)
 	{
 		fprintf(stderr, "error: %s infile", argv[0]);
@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
 
 	init();
 	
-	//ÊäÈëÎÄ±¾ÐÅÏ¢Î»ÖÃ¼ì²â
+	//è¾“å…¥æ–‡æœ¬ä¿¡æ¯ä½ç½®æ£€æµ‹
 	Target_file = fopen(argv[1], "r");
 	if (Target_file == NULL)
 	{
@@ -58,67 +58,67 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 	
-	//¶ÁÈ¡token
+	//è¯»å–token
 	scanf_file();
 	fclose(Target_file);
 /*
-	//ÖØÐÂ´ò¿ªÎÄ¼þ
+	//é‡æ–°æ‰“å¼€æ–‡ä»¶
 	Target_file = fopen(argv[1], "r");
-	//½¨Á¢Óï·¨·ÖÎöÊ÷
+	//å»ºç«‹è¯­æ³•åˆ†æžæ ‘
 	tok = scan();
 	Root = build_Ast();
 	fclose(Target_file);
 
-	//¼ÆËã¶ÔÓ¦µÄÖµ
-	printf("µÚÒ»ÖÖÓï·¨Ê÷£ºÆä±í´ïÊ½µÄÖµÎª£º%d\n",InterpretAst(Root));
-	//ÊÍ·ÅÊ÷µÄÄÚ´æÕ¼ÓÃ
+	//è®¡ç®—å¯¹åº”çš„å€¼
+	printf("ç¬¬ä¸€ç§è¯­æ³•æ ‘ï¼šå…¶è¡¨è¾¾å¼çš„å€¼ä¸ºï¼š%d\n",InterpretAst(Root));
+	//é‡Šæ”¾æ ‘çš„å†…å­˜å ç”¨
 	destroy_Ast(Root);
 
-	//ÖØÐÂ´ò¿ªÎÄ¼þ
+	//é‡æ–°æ‰“å¼€æ–‡ä»¶
 	Target_file = fopen(argv[1], "r");
-	//½¨Á¢Óï·¨·ÖÎöÊ÷
+	//å»ºç«‹è¯­æ³•åˆ†æžæ ‘
 	tok = scan();
 	Root = add_express();
 	fclose(Target_file);
 
-	//¼ÆËã¶ÔÓ¦µÄÖµ
-	printf("µÚ¶þÖÖÓï·¨Ê÷£ºÆä±í´ïÊ½µÄÖµÎª£º%d\n", InterpretAst(Root));
-	//ÊÍ·ÅÊ÷µÄÄÚ´æÕ¼ÓÃ
+	//è®¡ç®—å¯¹åº”çš„å€¼
+	printf("ç¬¬äºŒç§è¯­æ³•æ ‘ï¼šå…¶è¡¨è¾¾å¼çš„å€¼ä¸ºï¼š%d\n", InterpretAst(Root));
+	//é‡Šæ”¾æ ‘çš„å†…å­˜å ç”¨
 	destroy_Ast(Root);
 
-	//ÖØÐÂ´ò¿ªÎÄ¼þ
+	//é‡æ–°æ‰“å¼€æ–‡ä»¶
 	Target_file = fopen(argv[1], "r");
-	//½¨Á¢Óï·¨·ÖÎöÊ÷
+	//å»ºç«‹è¯­æ³•åˆ†æžæ ‘
 	tok = scan();
 	Root =Prec_express(0);
 	fclose(Target_file);
 
-	//¼ÆËã¶ÔÓ¦µÄÖµ
-	printf("ÕýÈ·Óï·¨Ê÷£ºÆä±í´ïÊ½µÄÖµÎª£º%d\n", InterpretAst(Root));
+	//è®¡ç®—å¯¹åº”çš„å€¼
+	printf("æ­£ç¡®è¯­æ³•æ ‘ï¼šå…¶è¡¨è¾¾å¼çš„å€¼ä¸ºï¼š%d\n", InterpretAst(Root));
 
-	//·­Òë³É»ã±à´úÂë
+	//ç¿»è¯‘æˆæ±‡ç¼–ä»£ç 
 	Out_file = fopen("output", "w");
 	if (!Out_file)
 	{
-		fprintf(stderr, "error:²»ÕýÈ·µÄÊä³öµØÖ·\n");
+		fprintf(stderr, "error:ä¸æ­£ç¡®çš„è¾“å‡ºåœ°å€\n");
 		exit(1);
 	}
 	general_code(Root);
-	printf("»ã±à´úÂëÒÑ·­ÒëÍê³É\n");
-	//ÊÍ·ÅÊ÷µÄÄÚ´æÕ¼ÓÃ
+	printf("æ±‡ç¼–ä»£ç å·²ç¿»è¯‘å®Œæˆ\n");
+	//é‡Šæ”¾æ ‘çš„å†…å­˜å ç”¨
 	destroy_Ast(Root);
 */
 
 
-	//ÖØÐÂ´ò¿ªÎÄ¼þ
+	//é‡æ–°æ‰“å¼€æ–‡ä»¶
 	Target_file = fopen(argv[1], "r");
 	init();
 	tok = scan();
-	//·­Òë³É»ã±à´úÂë
+	//ç¿»è¯‘æˆæ±‡ç¼–ä»£ç 
 	Out_file = fopen("out.s", "wb");
 	if (!Out_file)
 	{
-		fprintf(stderr, "error:²»ÕýÈ·µÄÊä³öµØÖ·\n");
+		fprintf(stderr, "error:ä¸æ­£ç¡®çš„è¾“å‡ºåœ°å€\n");
 		exit(1);
 	}
 	gen_preamble();
@@ -127,7 +127,7 @@ int main(int argc, char *argv[])
 		Root = function();
 		gen_ast(Root);
 	}
-	printf("»ã±à´úÂëÒÑ·­ÒëÍê³É\n");
+	printf("æ±‡ç¼–ä»£ç å·²ç¿»è¯‘å®Œæˆ\n");
 	destroy_Ast(Root);
 	return 0;
 }

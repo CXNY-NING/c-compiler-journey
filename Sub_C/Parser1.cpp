@@ -1,22 +1,22 @@
-#include"ast.h"
+﻿#include"ast.h"
 #include"token.h"
 #include"data.h"
 #include<stdlib.h>
 #include"scanner.h"
 #include"Parser.h"
 
-//�ӷ�����ʽ
-//���﷨�У����ѿ�������򵥵ļӷ�����ʽ����һ���˷�����ʽ��
-//��ô�����﷨���Ĺ���֮�ϣ��������ڣ��ӷ�����ʽ�������������˷�����ʽ������Ҷ�ӣ�ʵ�������ȼ�
+//加法表达式
+//从语法中，不难看出，最简单的加法表达式就是一个乘法表达式，
+//那么，在语法树的构造之上，就体现在，加法表达式更靠近根，而乘法表达式更靠近叶子，实现了优先级
 Ast_node* add_express(void)
 {
 	Ast_node* left, *right;
 	int op;
 
-	//������������еĳ˷���䣬��߳˷��������ȼ�
+	//考虑这颗子树中的乘法语句，提高乘法语句的优先级
 	left = mul_express();
 
-	//��ȡ��ǰ�ķ���
+	//获取当前的符号
 	op = connect(tok.token);
 	if (tok.token == end)
 	{
@@ -24,16 +24,16 @@ Ast_node* add_express(void)
 	}
 	tok = scan();
 
-	//ͨ��ѭ��ʵ������
+	//通过循环实现左结合
 	while (1)
 	{
-		//�Ƚ������ȼ��ļ���
+		//先将高优先级的计算
 		right = mul_express();
-		//�����µ�����
+		//建立新的子树
 		left = make_node(op, left, NULL, right, 0);
-		//��ȡ��һ���ַ�
+		//读取下一个字符
 		op = connect(tok.token);
-		//���������������ô����ʽ���������
+		//如果读到结束，那么表达式建立完成了
 		if (tok.token == end)
 		{
 			break;
@@ -43,24 +43,24 @@ Ast_node* add_express(void)
 	return left;
 }
 
-//�˷�����ʽ
+//乘法表达式
 Ast_node* mul_express(void)
 {
 	Ast_node* left, * right;
 	int op;
 
-	//������һ���ǻ����ڵ�
+	//左子树一定是基础节点
 	left = Primary();
 	
-	//��ȡ������
+	//读取操作符
 	tok = scan();
 	op = connect(tok.token);
 	if (tok.token == end)
 	{
-		return left;//�Ѿ������ˣ�ֱ�ӷ�������������
+		return left;//已经读完了，直接返回左子树即可
 	}
 
-	//һֱ��¼�˷�����ʽ��ֱ�����ּӷ�����ʽ
+	//一直记录乘法表达式，直至出现加法表达式
 	while ((op == A_mul_op) || (op == A_div_op))
 	{
 		tok = scan();

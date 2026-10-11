@@ -1,31 +1,31 @@
-#ifndef cg
+ï»¿#ifndef cg
 #define cg
 
-//¼Ó·¨
+//åŠ æ³•
 int cg_add(int left_reg, int right_reg);
-//¼õ·¨
+//å‡æ³•
 int cg_sub(int left_reg, int right_reg);
-//³Ë·¨
+//ä¹˜æ³•
 int cg_mul(int left_reg, int right_reg);
-//³ý·¨
+//é™¤æ³•
 int cg_div(int left_reg, int right_reg);
-//ÕûÊý¸³Öµ
+//æ•´æ•°èµ‹å€¼
 int cg_int(int value);
-//»ØÊÕËùÓÐµÄ¼Ä´æÆ÷
+//å›žæ”¶æ‰€æœ‰çš„å¯„å­˜å™¨
 void free_all_reg(void);
 
-//¼ÓÔØ±äÁ¿
+//åŠ è½½å˜é‡
 int cg_loadglob(const char* name);
 
-//½«Öµ´æÈë±äÁ¿
+//å°†å€¼å­˜å…¥å˜é‡
 int cg_storeglob(int reg, const char* name);
 
-//½¨Á¢·ûºÅ±í
+//å»ºç«‹ç¬¦å·è¡¨
 void cg_globsym(char* sym);
 
 void gen_globsym(char* sym);
 
-// Âß¼­ÔËËã·û == != > >= < <=
+// é€»è¾‘è¿ç®—ç¬¦ == != > >= < <=
 /*
 int cg_equal(int left_reg, int right_reg);
 int cg_not_equal(int left_reg, int right_reg);
@@ -41,42 +41,42 @@ int gen_great_than_equal(int left_reg, int right_reg);
 int gen_less_than(int left_reg, int right_reg);
 int gen_less_than_equal(int left_reg, int right_reg);
 */
-//ifÓï·¨Ê÷µÄ·­Òë
+//ifè¯­æ³•æ ‘çš„ç¿»è¯‘
 int get_if_ast(Ast_node* root);
 
-//whileÓï·¨Ê÷µÄ·­Òë
+//whileè¯­æ³•æ ‘çš„ç¿»è¯‘
 int get_while_ast(Ast_node* root);
 
-//do-while astµÄ·­Òë
+//do-while astçš„ç¿»è¯‘
 int get_do_ast(Ast_node* root);
 
-//·µ»ØÖµÎªvoidµÄº¯Êý
+//è¿”å›žå€¼ä¸ºvoidçš„å‡½æ•°
 int get_void_ast(Ast_node* root);
 
-//Ìø×ª
+//è·³è½¬
 int cg_compare_and_jump(int compare_op, int left_reg, int right_reg, int label);
 
-//·ÅÖÃ±êÇ©
+//æ”¾ç½®æ ‡ç­¾
 void cg_label(int Label);
 
-//Ìø×ªµ½±êÇ©
+//è·³è½¬åˆ°æ ‡ç­¾
 void cg_jump(int Label);
 
 int cg_compare_and_set(int left_reg, int right_reg, int compare_op);
 
-//Óï¾ä
+//è¯­å¥
 void statements(void);
 
 void gen_preamble(void);
-//Ç°ÖÃ´úÂë
+//å‰ç½®ä»£ç 
 void cg_preamble(void);
 void cg_fun_preamble(const char* name);
 void gen_printint(int reg);
-//Êä³ö´úÂë
+//è¾“å‡ºä»£ç 
 void cg_printint(int reg);
 
 void gen_postamble(void);
-//ºóÖÃ´úÂë
+//åŽç½®ä»£ç 
 void cg_postamble(void);
 void cg_fun_postamble();
 void gen_free_all_reg(void);
@@ -85,6 +85,6 @@ void free_all_reg(void);
 
 int gen_ast(Ast_node* root);
 
-//Éú³É»ã±à´úÂë
+//ç”Ÿæˆæ±‡ç¼–ä»£ç 
 void general_code(Ast_node* root);
 #endif // !cg

@@ -1,8 +1,8 @@
-#include"data.h"
+ï»¿#include"data.h"
 #include"ast.h"
 #include"cg.h"
 
-//·­ÒëAST
+//ç¿»è¯‘AST
 static int get_ans(Ast_node* root ,int reg,int upper_op)
 {
 	int left_reg, right_reg;
@@ -83,48 +83,48 @@ static int get_ans(Ast_node* root ,int reg,int upper_op)
 			return -1;
 			break;
 		default:
-			fprintf(stderr, "error:¼ì²âµ½Î´ÄÜÊ¶±ğµÄÄÚÈİ %d\n", op);
+			fprintf(stderr, "error:æ£€æµ‹åˆ°æœªèƒ½è¯†åˆ«çš„å†…å®¹ %d\n", op);
 	}
 }
 
-//ifÓï¾ä·­ÒëµÄµÄÇ°ÖÃ¹¤×÷
+//ifè¯­å¥ç¿»è¯‘çš„çš„å‰ç½®å·¥ä½œ
 static int New_label(void)
 {
 	return label++;
 }
 
 
-//ifÓï·¨Ê÷µÄ·­Òë
+//ifè¯­æ³•æ ‘çš„ç¿»è¯‘
 int get_if_ast(Ast_node* root)
 {
-	//ÎÒÃÇĞèÒªÁ½¸ö³ö¿Ú£¬ifÖ®ºó½ô¸úµÄÓï·¨¿éÖĞµÄ½áÎ²Î»ÖÃ£¬ºÍelse½áÊøÖ®ºóµÄÓï·¨¿éÎ»ÖÃ
+	//æˆ‘ä»¬éœ€è¦ä¸¤ä¸ªå‡ºå£ï¼Œifä¹‹åç´§è·Ÿçš„è¯­æ³•å—ä¸­çš„ç»“å°¾ä½ç½®ï¼Œå’Œelseç»“æŸä¹‹åçš„è¯­æ³•å—ä½ç½®
 	int Lfalse, Lend;
 
 	Lfalse = New_label();
-	//Èç¹ûÓĞelse
+	//å¦‚æœæœ‰else
 	if (root->right_node)
 	{
 		Lend = New_label();
 	}
 
-	//¼ÆËãÅĞ¶ÏÓï¾ä,²¢ÇÒÌø×ªµ½²»·ûºÏ¸ÃÌõ¼şµÄÎ»ÖÃÈ¥
+	//è®¡ç®—åˆ¤æ–­è¯­å¥,å¹¶ä¸”è·³è½¬åˆ°ä¸ç¬¦åˆè¯¥æ¡ä»¶çš„ä½ç½®å»
 	get_ans(root->left_node, Lfalse, root->op);
 	free_all_reg();
 
-	//·­ÒëifÖ®ºóµÄÓï·¨¿é
+	//ç¿»è¯‘ifä¹‹åçš„è¯­æ³•å—
 	get_ans(root->mid_node, -1, root->op);
 	free_all_reg();
 
-	//ÈôÓĞelse£¬Ò»µ©½øÈëÕâ¸öÓï·¨¿é£¬¾ÍÒªÌø×ªµ½elseÓï·¨¿éÖ´ĞĞÍêµÄµØ·½
+	//è‹¥æœ‰elseï¼Œä¸€æ—¦è¿›å…¥è¿™ä¸ªè¯­æ³•å—ï¼Œå°±è¦è·³è½¬åˆ°elseè¯­æ³•å—æ‰§è¡Œå®Œçš„åœ°æ–¹
 	if (root->right_node)
 	{
 		cg_jump(Lend);
 	}
 
-	//ÏÖÔÚ·ÅÏÂÎª·ñµÄ±êÇ©
+	//ç°åœ¨æ”¾ä¸‹ä¸ºå¦çš„æ ‡ç­¾
 	cg_label(Lfalse);
 
-	//Èç¹ûÓĞelse£¬Ôò¼ÌĞø·­Òëelse²¿·Ö
+	//å¦‚æœæœ‰elseï¼Œåˆ™ç»§ç»­ç¿»è¯‘elseéƒ¨åˆ†
 	if (root->right_node)
 	{
 		get_ans(root->right_node, -1,root->op);
@@ -134,53 +134,53 @@ int get_if_ast(Ast_node* root)
 	return -1;
 }
 
-//whileÓï·¨Ê÷µÄ·­Òë
+//whileè¯­æ³•æ ‘çš„ç¿»è¯‘
 int get_while_ast(Ast_node* root)
 {
-	//ÎÒÃÇĞèÒªÁ½¸ö±êÇ©£¬lstart£ºµ±Ìõ¼şÎªÕæÊ±£¬×Ô¶¯Ìø×ªµ½Õâ¸öÎ»ÖÃ¡£lend:µ±Ìõ¼şÎª¼ÙÊ±£¬Ö±½Ó¼ÌĞøºó±ßµÄ´úÂë
+	//æˆ‘ä»¬éœ€è¦ä¸¤ä¸ªæ ‡ç­¾ï¼Œlstartï¼šå½“æ¡ä»¶ä¸ºçœŸæ—¶ï¼Œè‡ªåŠ¨è·³è½¬åˆ°è¿™ä¸ªä½ç½®ã€‚lend:å½“æ¡ä»¶ä¸ºå‡æ—¶ï¼Œç›´æ¥ç»§ç»­åè¾¹çš„ä»£ç 
 	int lstart, lend;
 	lstart = New_label();
 	lend = New_label();
 
-	//ÏÈ·ÅÖÃÈë¿Úlabel£¬ÔÙ¼ÆËã±í´ïÊ½
+	//å…ˆæ”¾ç½®å…¥å£labelï¼Œå†è®¡ç®—è¡¨è¾¾å¼
 	cg_label(lstart);
 	get_ans(root->left_node, lend, root->op);
 	free_all_reg();
-	//ÔÙ·­ÒëÌõ¼şÎªÕæÊ±µÄÓï¾ä
+	//å†ç¿»è¯‘æ¡ä»¶ä¸ºçœŸæ—¶çš„è¯­å¥
 	get_ans(root->mid_node, -1, root->op);
 	free_all_reg();
-	//Ìø×ªÖÁ¿ªÍ·
+	//è·³è½¬è‡³å¼€å¤´
 	cg_jump(lstart);
 
-	//·ÅÖÃ³ö¿Ú
+	//æ”¾ç½®å‡ºå£
 	cg_label(lend);
 
 	return -1;
 }
 
-//do-while astµÄ·­Òë
-//ÓëwhileµÄ·­ÒëÏà±È£¬Ö»ĞèÒª½«±È½Ï·ÅÔÚ×îºó±ß
-//Í¬Ê±£¬Ö»ĞèÒªÒ»¸öÌø×ª³ö¿Ú£¬µ±Âú×ãÌõ¼şÊ±£¬»Øµ½¿ªÍ·
-//²»Âú×ãÌõ¼şÊ±£¬¼ÌĞøÖ´ĞĞ
+//do-while astçš„ç¿»è¯‘
+//ä¸whileçš„ç¿»è¯‘ç›¸æ¯”ï¼Œåªéœ€è¦å°†æ¯”è¾ƒæ”¾åœ¨æœ€åè¾¹
+//åŒæ—¶ï¼Œåªéœ€è¦ä¸€ä¸ªè·³è½¬å‡ºå£ï¼Œå½“æ»¡è¶³æ¡ä»¶æ—¶ï¼Œå›åˆ°å¼€å¤´
+//ä¸æ»¡è¶³æ¡ä»¶æ—¶ï¼Œç»§ç»­æ‰§è¡Œ
 int get_do_ast(Ast_node* root)
 {
 	int lstart;
 	lstart = New_label();
 
-	//ÉèÖÃÈë¿Ú
+	//è®¾ç½®å…¥å£
 	cg_label(lstart);
 
-	//·­ÒëÑ­»·Ìå
+	//ç¿»è¯‘å¾ªç¯ä½“
 	get_ans(root->mid_node, -1, root->op);
 	free_all_reg();
-	//·­ÒëÅĞ¶ÏÌõ¼ş
+	//ç¿»è¯‘åˆ¤æ–­æ¡ä»¶
 	get_ans(root->left_node, lstart, root->op);
 	free_all_reg();
 
 	return -1;
 }
 
-//·µ»ØÖµÎªvoidµÄº¯Êı
+//è¿”å›å€¼ä¸ºvoidçš„å‡½æ•°
 int get_void_ast(Ast_node* root)
 {
 	cg_fun_preamble(Global_sym[root->v.id].name);
@@ -221,19 +221,19 @@ void gen_globsym(char* sym)
 }
 
 
-//»ã×Üº¯Êı
+//æ±‡æ€»å‡½æ•°
 void general_code(Ast_node* root)
 {
-	//×îÖÕ´ğ°¸µÄÄ¿±ê¼Ä´æÆ÷
+	//æœ€ç»ˆç­”æ¡ˆçš„ç›®æ ‡å¯„å­˜å™¨
 	int reg;
 
-	//Ç°ÖÃ´úÂë
+	//å‰ç½®ä»£ç 
 	gen_preamble();
 
 	reg=get_ans(root,-1,root->op);
-	//Êä³ö×îÖÕ¼Ä´æÆ÷µÄÖµ
+	//è¾“å‡ºæœ€ç»ˆå¯„å­˜å™¨çš„å€¼
 	gen_printint(reg);
 
-	//ºóÖÃ´úÂë
+	//åç½®ä»£ç 
 	gen_postamble();
 }

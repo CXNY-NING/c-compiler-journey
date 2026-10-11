@@ -1,4 +1,4 @@
-#ifndef Sym
+ï»¿#ifndef Sym
 #define Sym
 
 typedef struct symbol
@@ -6,9 +6,9 @@ typedef struct symbol
 	char* name;
 }symbol_table;
 
-//²éÕÒÒ»¸öÒ»¸ö±äÁ¿ÔÚ·ûºÅ±íÖĞµÄÎ»ÖÃ£¬ÔÚ·µ»Ø¶ÔÓ¦ÏÂ±ê£¬²»ÔÚ£¬·µ»Ø-1
+//æŸ¥æ‰¾ä¸€ä¸ªä¸€ä¸ªå˜é‡åœ¨ç¬¦å·è¡¨ä¸­çš„ä½ç½®ï¼Œåœ¨è¿”å›å¯¹åº”ä¸‹æ ‡ï¼Œä¸åœ¨ï¼Œè¿”å›-1
 int find_sym(const char* name);
 
-//¼ÓÈëÒ»¸öĞÂµÄ·ûºÅ
+//åŠ å…¥ä¸€ä¸ªæ–°çš„ç¬¦å·
 int add_new_sym(const char* name);
 #endif // 

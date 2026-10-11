@@ -1,22 +1,22 @@
-#ifndef Stmt
+ï»¿#ifndef Stmt
 #define Stmt
 
-//Êä³öÓï¾ä
+//è¾“å‡ºè¯­å¥
 Ast_node* print_stmt(void);
-//¶¨ÒåÓï¾ä
+//å®šä¹‰è¯­å¥
 void var_declaration(void);
-//¸³ÖµÓï¾ä
+//èµ‹å€¼è¯­å¥
 Ast_node* assignment_statement(void);
-//ifÓï¾ä
+//ifè¯­å¥
 Ast_node* if_stmt(void);
-//whileÑ­»·
+//whileå¾ªç¯
 Ast_node* while_stmt(void);
-//forÓï¾ä
+//forè¯­å¥
 Ast_node* for_stmt(void);
-//¼òµ¥Óï¾ä
+//ç®€å•è¯­å¥
 Ast_node* small_stmt(void);
 Ast_node* compound_statement(void);
 
-//º¯Êı
+//å‡½æ•°
 Ast_node* function(void);
 #endif // !

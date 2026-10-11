@@ -1,22 +1,22 @@
-#include<stdio.h>
+ï»¿#include<stdio.h>
 #include<string.h>
 
 #ifndef Token
 #define Token
-//ÔÝÊ±½öÖ§³Ö±êÊ¶·û + - * / intÖµ(0~9×é³ÉµÄÊý×Ö) ; print int = 
-//token µÄ¶¨Òå
+//æš‚æ—¶ä»…æ”¯æŒæ ‡è¯†ç¬¦ + - * / intå€¼(0~9ç»„æˆçš„æ•°å­—) ; print int = 
+//token çš„å®šä¹‰
 typedef struct token
 {
-	int token;//È·¶¨ÊÇÄÄÒ»ÖÖ±íÊ¾·û
-	int int_value;//ÈôÊÇÊý×Ö£¬Ôò¼ÇÂ¼ÏÂÖµ
+	int token;//ç¡®å®šæ˜¯å“ªä¸€ç§è¡¨ç¤ºç¬¦
+	int int_value;//è‹¥æ˜¯æ•°å­—ï¼Œåˆ™è®°å½•ä¸‹å€¼
 }token;
 
-//¶ÔÏÖÓÐµÄ±êÊ¶·û±àºÅ 
-// ½áÊø·û end
-// ÔËËã·ûºÅ + - * / 
-// Âß¼­ÔËËã·û == != > >= < <=
-// Öµ int³£Á¿£¬int±äÁ¿
-// ±êÊ¶·û ; print int ¸³Öµ·ûºÅ { } ( ) if else while for
+//å¯¹çŽ°æœ‰çš„æ ‡è¯†ç¬¦ç¼–å· 
+// ç»“æŸç¬¦ end
+// è¿ç®—ç¬¦å· + - * / 
+// é€»è¾‘è¿ç®—ç¬¦ == != > >= < <=
+// å€¼ intå¸¸é‡ï¼Œintå˜é‡
+// æ ‡è¯†ç¬¦ ; print int èµ‹å€¼ç¬¦å· { } ( ) if else while for
 enum tokens
 {
 	end,

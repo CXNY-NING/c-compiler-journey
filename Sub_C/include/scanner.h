@@ -1,4 +1,4 @@
-#ifndef scanner
+﻿#ifndef scanner
 #define scanner
 
 token scan(void);

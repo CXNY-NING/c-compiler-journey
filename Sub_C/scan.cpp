@@ -1,4 +1,4 @@
-#include"token.h"
+ï»¿#include"token.h"
 #include"data.h"
 #include<ctype.h>
 #include<string.h>
@@ -6,10 +6,10 @@
 
 static int next(void)
 {
-	//ÁÙÊ±´æ´¢
+	//ä¸´æ—¶å­˜å‚¨
 	int cur;
 
-	//ÈôÓĞ¶à¶ÁÈ¡µÄÇé¿ö£¬ÔòÏÈ¶ÁÈ¡Õâ¸ö¶à¶ÁµÄ¶«Î÷
+	//è‹¥æœ‰å¤šè¯»å–çš„æƒ…å†µï¼Œåˆ™å…ˆè¯»å–è¿™ä¸ªå¤šè¯»çš„ä¸œè¥¿
 	if (Putback)
 	{
 		cur = Putback;
@@ -17,9 +17,9 @@ static int next(void)
 		return cur;
 	}
 
-	//Ã»ÓĞ¶à¶ÁµÄÇé¿ö£¬Ö±½Ó´ÓÒÑÓĞµÄÎÄ±¾ÖĞÔÚ¶ÁÈ¡Ò»¸ö×Ö·û
+	//æ²¡æœ‰å¤šè¯»çš„æƒ…å†µï¼Œç›´æ¥ä»å·²æœ‰çš„æ–‡æœ¬ä¸­åœ¨è¯»å–ä¸€ä¸ªå­—ç¬¦
 	cur = fgetc(Target_file);
-	//Èç¹û¶Áµ½µÄÕâ¸ö×Ö·ûÊÇ»»ĞĞ·û£¬ĞĞÊı¼ÓÒ»
+	//å¦‚æœè¯»åˆ°çš„è¿™ä¸ªå­—ç¬¦æ˜¯æ¢è¡Œç¬¦ï¼Œè¡Œæ•°åŠ ä¸€
 	if (cur == '\n')
 	{
 		line++;
@@ -33,14 +33,14 @@ static void putback(int cur)
 	Putback = cur;
 }
 
-//Ìø¹ıÒ»Ğ©ÎÄ±¾×Ô´øµÄÎŞÒâÒåµÄ·ûºÅ
+//è·³è¿‡ä¸€äº›æ–‡æœ¬è‡ªå¸¦çš„æ— æ„ä¹‰çš„ç¬¦å·
 static int skip(void)
 {
 	int cur;
 	
-	//ÏÈ¶ÁÈ¡Ò»¸ö·ûºÅ
+	//å…ˆè¯»å–ä¸€ä¸ªç¬¦å·
 	cur = next();
-	//ÔÚÅĞ¶ÏÊÇ·ñĞèÒªÌø¹ı£¬ÈôĞèÒª£¬ÔÚ¶ÁÒ»¸ö·ûºÅ
+	//åœ¨åˆ¤æ–­æ˜¯å¦éœ€è¦è·³è¿‡ï¼Œè‹¥éœ€è¦ï¼Œåœ¨è¯»ä¸€ä¸ªç¬¦å·
 	while(cur == '\n' || cur == '\t' || cur == '\r' || cur == '\f' || cur == ' ')
 	{
 		cur = next();
@@ -50,12 +50,12 @@ static int skip(void)
 
 }
 
-//×Ô¶¯¼ÆËã¾àÀë
+//è‡ªåŠ¨è®¡ç®—è·ç¦»
 static int distance(const char str[], char cur)
 {
 	int len = strlen(str);
 
-	//Ò»¸öÒ»¸ö±È¶Ô£¬ÕÒµ½¾Í·µ»ØÏÂ±ê£¬¼´ÊıÖµ
+	//ä¸€ä¸ªä¸€ä¸ªæ¯”å¯¹ï¼Œæ‰¾åˆ°å°±è¿”å›ä¸‹æ ‡ï¼Œå³æ•°å€¼
 	for (int i = 0; i < len; i++)
 	{
 		if (cur == str[i])
@@ -63,12 +63,12 @@ static int distance(const char str[], char cur)
 			return i;
 		}
 	}
-	//Ã»ÕÒµ½£¬Ôò·µ»Ø-1
+	//æ²¡æ‰¾åˆ°ï¼Œåˆ™è¿”å›-1
 	return -1;
 }
 
 
-//¼ì²âµ½Êı×Ö£¬×Ô¶¯×ª»¯ÎªÍêÕûint
+//æ£€æµ‹åˆ°æ•°å­—ï¼Œè‡ªåŠ¨è½¬åŒ–ä¸ºå®Œæ•´int
 static int scan_int(int cur)
 {
 	int value=0,temp;
@@ -83,14 +83,14 @@ static int scan_int(int cur)
 	return value;
 }
 
-//¼ì²âµ½Ó¢ÎÄ£¬×Ô¶¯ÊÕ¼¯ÍêÕûµÄÓ¢ÎÄµ¥´Ê
+//æ£€æµ‹åˆ°è‹±æ–‡ï¼Œè‡ªåŠ¨æ”¶é›†å®Œæ•´çš„è‹±æ–‡å•è¯
 static void collect_word(int cur, char* buf, int Max_len)
 {
 	int i = 0;
-	//Ñ­»·¼ì²â£¬Ö±ÖÁ²»ÊÇÎÒÃÇÏëÒªµÄ×Ö·û
+	//å¾ªç¯æ£€æµ‹ï¼Œç›´è‡³ä¸æ˜¯æˆ‘ä»¬æƒ³è¦çš„å­—ç¬¦
 	while (isalpha(cur) || isdigit(cur) || cur == '_')
 	{
-		//²»Òª³¬³ö»º´æÇø(buf_len-1,»¹ÒªÁôÒ»¸öÎ»ÖÃ¸ø\0)
+		//ä¸è¦è¶…å‡ºç¼“å­˜åŒº(buf_len-1,è¿˜è¦ç•™ä¸€ä¸ªä½ç½®ç»™\0)
 		if (i < Max_len - 1)
 		{
 			buf[i] = cur;
@@ -99,18 +99,18 @@ static void collect_word(int cur, char* buf, int Max_len)
 		}
 		else
 		{
-			fprintf(stderr, "error:¹ı³¤µÄÃû³Æ,%d ĞĞ\n", line);
+			fprintf(stderr, "error:è¿‡é•¿çš„åç§°,%d è¡Œ\n", line);
 			exit(1);
 		}
 	}
 
-	//·Å»Ø¶àÓàµÄ×Ö·û
+	//æ”¾å›å¤šä½™çš„å­—ç¬¦
 	putback(cur);
-	//²¹ÉÏ\0
+	//è¡¥ä¸Š\0
 	buf[i] = '\0';
 }
 
-//ÅĞ¶ÏÕâ¶Î×Ö·ûÊÇ²»ÊÇÎÒÃÇµÄ±êÊ¶·û
+//åˆ¤æ–­è¿™æ®µå­—ç¬¦æ˜¯ä¸æ˜¯æˆ‘ä»¬çš„æ ‡è¯†ç¬¦
 static int compare_keyword(char* buf)
 {
 	switch (*buf)
@@ -167,14 +167,14 @@ static int compare_keyword(char* buf)
 	}
 }
 
-//¶ÁÈ¡ÎÄ±¾£¬·µ»Øtoken
+//è¯»å–æ–‡æœ¬ï¼Œè¿”å›token
 token scan(void)
 {
 	int cur;
 	cur = skip();
 	token temp;
 
-	//ÅĞ¶Ï·ûºÅ
+	//åˆ¤æ–­ç¬¦å·
 	switch (cur)
 	{
 		case EOF:
@@ -209,7 +209,7 @@ token scan(void)
 			break;	
 		case '=':
 			cur = next();
-			//ÏÈÅĞ¶ÏµÈÓÚÂß¼­ÅĞ¶Ï·ûºÅ
+			//å…ˆåˆ¤æ–­ç­‰äºé€»è¾‘åˆ¤æ–­ç¬¦å·
 			if (cur != '=')
 			{
 				putback(cur);
@@ -223,7 +223,7 @@ token scan(void)
 			break;
 		case '>':
 			cur = next();
-			//ÏÈÅĞ¶ÏµÈÓÚÂß¼­ÅĞ¶Ï·ûºÅ
+			//å…ˆåˆ¤æ–­ç­‰äºé€»è¾‘åˆ¤æ–­ç¬¦å·
 			if (cur != '=')
 			{
 				putback(cur);
@@ -237,7 +237,7 @@ token scan(void)
 			break;
 		case '<':
 			cur = next();
-			//ÏÈÅĞ¶ÏµÈÓÚÂß¼­ÅĞ¶Ï·ûºÅ
+			//å…ˆåˆ¤æ–­ç­‰äºé€»è¾‘åˆ¤æ–­ç¬¦å·
 			if (cur != '=')
 			{
 				putback(cur);
@@ -256,26 +256,26 @@ token scan(void)
 			}
 			else
 			{
-				fprintf(stderr, "error:³öÏÖÁËÎ´ÔøÉèÏëµ½µÄ×Ö·û£¬%c;ÆÚÍû£º=\n", cur);
+				fprintf(stderr, "error:å‡ºç°äº†æœªæ›¾è®¾æƒ³åˆ°çš„å­—ç¬¦ï¼Œ%c;æœŸæœ›ï¼š=\n", cur);
 				exit(1);
 			}
 			break;
 		default:
-			//Èç¹ûÊÇÊı×Ö£¬Ôò¼ÇÂ¼ÏÂÍêÕûµÄÊı×Ö
+			//å¦‚æœæ˜¯æ•°å­—ï¼Œåˆ™è®°å½•ä¸‹å®Œæ•´çš„æ•°å­—
 			if (isdigit(cur))
 			{
 				temp.token = I_value;
 				temp.int_value = scan_int(cur);
 				break;
 			}
-			//Èç¹ûÊÇÓ¢ÎÄ£¬ÎÒÃÇĞèÒª½«ÕâÒ»Õû¸öÓ¢ÎÄµ¥´Ê¶Á³öÀ´
+			//å¦‚æœæ˜¯è‹±æ–‡ï¼Œæˆ‘ä»¬éœ€è¦å°†è¿™ä¸€æ•´ä¸ªè‹±æ–‡å•è¯è¯»å‡ºæ¥
 			else if (isalpha(cur)||cur=='_')
 			{
 				collect_word(cur, buffer, Buf_Max);
 				temp.token=compare_keyword(buffer);
 				break;
 			}
-			//ÔÚÊ¶±ğ²»³öÀ´£¬ÄÇ¾ÍÊÇ´íÎóµÄÊäÈë
+			//åœ¨è¯†åˆ«ä¸å‡ºæ¥ï¼Œé‚£å°±æ˜¯é”™è¯¯çš„è¾“å…¥
 			temp.token = -1;
 			temp.int_value = cur;
 	}
@@ -283,7 +283,7 @@ token scan(void)
 	return temp;
 }
 
-//¶ÁÈ¡ÎÄ±¾
+//è¯»å–æ–‡æœ¬
 void scanf_file()
 {
 	token temp;
@@ -293,10 +293,10 @@ void scanf_file()
 		temp = scan();
 		if (temp.token == -1)
 		{
-			printf("µÚ%dĞĞ: ÎŞ·¨Ê¶±ğµÄ×Ö·û: %c",line,temp.int_value);
+			printf("ç¬¬%dè¡Œ: æ— æ³•è¯†åˆ«çš„å­—ç¬¦: %c",line,temp.int_value);
 			exit(1);
 		}
-		printf("µÚ%dĞĞ: %s ",line, tokens_type[temp.token]);
+		printf("ç¬¬%dè¡Œ: %s ",line, tokens_type[temp.token]);
 		if (temp.token == I_value)
 		{
 			printf("%d", temp.int_value);
